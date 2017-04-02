@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <Title>Gif Fun</Title>
+    <link rel="stylesheet" type="text/css" href="Assets/CSS/style.css">
+</head>
+
+<body>
+    <div id="buttons-view"></div>
+    <form id="input-form">
+        <label for="adding-button">Add to the Collection</label>
+        <input type="text" id="add">
+        <br>
+        <br>
+        <input id="add-gif" type="submit" value="Add More Gifs">
+    </form>
+    <div id="gifsGoHere">
+    </div>
+    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript">
+    var topics = ["Kratos", "Mario", "Predator", "Sweet Tooth", "Resident Evil", "Wolverine", "Walter White", "Punisher", "Dante"];
+
+    function renderButtons() {
+        $("#buttons-view").empty();
+        for (var i = 0; i < topics.length; i++) {
+            var but = $("<button>").text(topics[i]);
+            $("button").addClass("data-person");
+            $("#buttons-view").append(but);
+        }
+    };
+
+    $("#add-gif").on("click", function(event) {
+        event.preventDefault();
+        var newGif = $("#add").val().trim();
+        topics.push(newGif);
+        renderButtons();
+    });
+
+    $("#buttons-view").on("click", "button", function() {
+        $("#gifsGoHere").empty();
+        var gifGo = $(this).text();
+        var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + gifGo + "&api_key=dc6zaTOxFJmzC&limit=10&rating=pg-13";
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).done(function(response) {
+            for (var i = 0; i < response.data.length; i++) {
+                $("#gifsGoHere").append("<img src='" + response.data[i].images.fixed_height.url + "'></img>");
+                $("#gifsGoHere").append("Rating: " + response.data[i].rating);
+                console.log(response.data);
+            };
+        });
+    });
+
+    $("#gifsGoHere").on("click", "img", function() {
+        $("img").attr("data-state" === 'still');
+    })
+
+
+
+    renderButtons();
+    </script>
+</body>
+
+</html>
