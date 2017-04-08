@@ -40,7 +40,7 @@
     $("#buttons-view").on("click", "button", function() {
         $("#gifsGoHere").empty();
         var gifGo = $(this).text();
-        var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + gifGo + "&api_key=dc6zaTOxFJmzC&limit=10&rating=pg-13";
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gifGo + "&api_key=dc6zaTOxFJmzC&limit=10&rating=pg-13";
         $.ajax({
             url: queryURL,
             method: "GET"
